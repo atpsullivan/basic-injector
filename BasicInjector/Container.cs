@@ -28,17 +28,16 @@ namespace BasicInjector
 
         public object Resolve(Type requestedType)
         {
-            if (registrations.ContainsKey(requestedType))
+            if (registrations.TryGetValue(requestedType, out Registration registration))
             {
-                var registration = registrations[requestedType];
-
                 if(registration.Lifespan == Lifespan.Singleton)
                 {
-                    if(!instances.ContainsKey(requestedType))
+                    if(!instances.TryGetValue(requestedType, out object instance))
                     {
-                        instances[requestedType] = CreateInstance(registration);
+                        instance = CreateInstance(registration);
+                        instances[requestedType] = instance;
                     }
-                    return instances[requestedType];
+                    return instance;
                 }
                 else
                 {

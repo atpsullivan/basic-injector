@@ -17,9 +17,25 @@ namespace ContainerTest
         {
             FeatureTest();
             Console.WriteLine();
+
             PerformanceTest();
-            //InstanceCreationTest();
-            //InstanceCreationTest();
+            Console.WriteLine();
+            PerformanceTest();
+            Console.WriteLine();
+            PerformanceTest();
+            Console.WriteLine();
+            PerformanceTest();
+            Console.WriteLine();
+
+            InstanceCreationTest();
+            Console.WriteLine();
+            InstanceCreationTest();
+            Console.WriteLine();
+            InstanceCreationTest();
+            Console.WriteLine();
+            InstanceCreationTest();
+            Console.WriteLine();
+
             Console.ReadLine();
         }
 
@@ -52,21 +68,21 @@ namespace ContainerTest
             watch1.Stop();
             Console.WriteLine("{0}: {1}ms", "Expression Create", watch1.ElapsedMilliseconds);
 
-            var watch2 = Stopwatch.StartNew();
-            for (int i = 0; i < instancesToCreate; i++)
-            {
-                constructorInfo.Invoke(args);
-            }
-            watch2.Stop();
-            Console.WriteLine("{0}: {1}ms", "Invoke", watch2.ElapsedMilliseconds);
+            //var watch2 = Stopwatch.StartNew();
+            //for (int i = 0; i < instancesToCreate; i++)
+            //{
+            //    constructorInfo.Invoke(args);
+            //}
+            //watch2.Stop();
+            //Console.WriteLine("{0}: {1}ms", "Invoke", watch2.ElapsedMilliseconds);
 
-            var watch3 = Stopwatch.StartNew();
-            for (int i = 0; i < instancesToCreate; i++)
-            {
-                Activator.CreateInstance(type, args);
-            }
-            watch3.Stop();
-            Console.WriteLine("{0}: {1}ms", "Activator", watch3.ElapsedMilliseconds);
+            //var watch3 = Stopwatch.StartNew();
+            //for (int i = 0; i < instancesToCreate; i++)
+            //{
+            //    Activator.CreateInstance(type, args);
+            //}
+            //watch3.Stop();
+            //Console.WriteLine("{0}: {1}ms", "Activator", watch3.ElapsedMilliseconds);
 
             var watch4 = Stopwatch.StartNew();
             Func<object[], object> func = (object[] a) => new TestProcess((ConsoleLogger)a[0], (TestRepo)a[1]);
@@ -78,7 +94,7 @@ namespace ContainerTest
             Console.WriteLine("{0}: {1}ms", "New", watch4.ElapsedMilliseconds);
         }
 
-        static void PerformanceTest(int instancesToCreate = 1000000)
+        static void PerformanceTest(int instancesToCreate = 10000000)
         {
             //****************
             // Basic Injector
@@ -87,13 +103,13 @@ namespace ContainerTest
             BasicPerformanceBootstrapper(expressionContainer);
             TestContainer("Expression", () => expressionContainer.Resolve<IProcess>(), instancesToCreate);
 
-            var activatorContainer = new BasicInjector.Container(InstantiationMethod.Activator);
-            BasicPerformanceBootstrapper(activatorContainer);
-            TestContainer("Activator", () => activatorContainer.Resolve<IProcess>(), instancesToCreate);
+            //var activatorContainer = new BasicInjector.Container(InstantiationMethod.Activator);
+            //BasicPerformanceBootstrapper(activatorContainer);
+            //TestContainer("Activator", () => activatorContainer.Resolve<IProcess>(), instancesToCreate);
 
-            var invokeContainer = new BasicInjector.Container(InstantiationMethod.Invoke);
-            BasicPerformanceBootstrapper(invokeContainer);
-            TestContainer("Invoke", () => invokeContainer.Resolve<IProcess>(), instancesToCreate);
+            //var invokeContainer = new BasicInjector.Container(InstantiationMethod.Invoke);
+            //BasicPerformanceBootstrapper(invokeContainer);
+            //TestContainer("Invoke", () => invokeContainer.Resolve<IProcess>(), instancesToCreate);
 
 
             //*****************

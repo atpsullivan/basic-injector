@@ -26,7 +26,7 @@ namespace BasicInjector
             Register<TConcrete, TConcrete>(Lifespan.Singleton);
         }
 
-        // TODO: Add constructor info
+        // TODO: Add support for using different constructors
         public void Register<TContract, TConcrete>(Lifespan lifespan = Lifespan.Transient) where TConcrete : class, TContract
         {
             var type = typeof(TConcrete);
